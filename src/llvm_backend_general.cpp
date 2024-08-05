@@ -2996,8 +2996,7 @@ gb_internal lbAddr lb_add_global_generated(lbModule *m, Type *type, lbValue valu
 	lbValue g = {};
 	g.type = alloc_type_pointer(type);
 	g.value = LLVMAddGlobal(m->mod, lb_type(m, type), cast(char const *)str);
-	if (value.value != nullptr) {
-		GB_ASSERT_MSG(LLVMIsConstant(value.value), LLVMPrintValueToString(value.value));
+	if (value.value != nullptr && LLVMIsConstant(value.value)) {
 		LLVMSetInitializer(g.value, value.value);
 	} else {
 		LLVMSetInitializer(g.value, LLVMConstNull(lb_type(m, type)));
